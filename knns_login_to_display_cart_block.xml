@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification
+	xmlns="https://github.com/vqmod/vqmod"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://github.com/vqmod/vqmod https://raw.githubusercontent.com/vqmod/vqmod/master/vqmod.xsd">
+	>
+	<id><![CDATA[[VQMOD] Journal 2 - Advanced Opencart Theme: Login to display cart block (header & product page)]]></id>
+	<version>1.0.0</version>
+	<vqmver>2.6.3</vqmver>
+	<author>kanenas.net (aka Nikolas Branis) - nbran@kanenas.net</author>
+	<file path="catalog/controller/product/" name="product.php" error="log">
+		<operation error="skip">
+			<search position="after"><![CDATA[$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');]]></search>
+			<add><![CDATA[
+			// kanenas: knns_login_to_display_cart_block.xml (start) <<
+			$data['logged'] = $this->customer->isLogged();
+			// kanenas: knns_login_to_display_cart_block.xml (end) <<
+			]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/journal2/template/journal2/headers/" name="center.tpl,compact.tpl,default.tpl,mega.tpl" error="log">
+		<operation error="skip">
+			<search position="before"><![CDATA[<?php echo $cart; ?>]]></search>
+			<add><![CDATA[
+              <?php // kanenas: knns_login_to_display_cart_block.xml (start) << ?>
+              <?php if ($logged) { ?>
+              <?php // kanenas: knns_login_to_display_cart_block.xml (end) << ?>
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="after"><![CDATA[<?php echo $cart; ?>]]></search>
+			<add><![CDATA[
+              <?php // kanenas: knns_login_to_display_cart_block.xml (start) << ?>
+              <?php } ?>
+              <?php // kanenas: knns_login_to_display_cart_block.xml (end) << ?>
+			]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/journal2/template/product/" name="product.tpl" error="log">
+		<operation error="skip">
+			<search position="before"><![CDATA[<div class="form-group cart <?php echo isset($labels) && is_array($labels) && isset($labels['outofstock']) ? 'outofstock' : ''; ?>">]]></search>
+			<add><![CDATA[
+              <?php // kanenas: knns_login_to_display_cart_block.xml (start) << ?>
+              <?php if ($logged) { ?>
+              <?php // kanenas: knns_login_to_display_cart_block.xml (end) << ?>
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="before"><![CDATA[<div class="wishlist-compare">]]></search>
+			<add><![CDATA[
+              <?php // kanenas: knns_login_to_display_cart_block.xml (start) << ?>
+              <?php } ?>
+              <?php // kanenas: knns_login_to_display_cart_block.xml (end) << ?>
+			]]></add>
+		</operation>
+	</file>
+</modification>
